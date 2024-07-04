@@ -2,12 +2,30 @@
 
 import { Colors } from "@/constants/Colors";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, type ViewProps } from "react-native";
+
+type ReferenceDataType = {
+  Safety: {
+    color: string;
+    text: string;
+    value: number;
+  };
+  Moderate: {
+    color: string;
+    text: string;
+    value: number;
+  };
+  Unhealthy: {
+    color: string;
+    text: string;
+    value: number;
+  };
+};
 
 type Props = {
   header: string;
   realTimeData: number;
-  ReferenceData: number;
+  ReferenceData: ReferenceDataType;
 };
 
 export default function SensorData({
@@ -15,29 +33,26 @@ export default function SensorData({
   realTimeData,
   ReferenceData,
 }: Props) {
-  const Level = {
-    Safety: {
-      value: 10,
-      color: Colors.light.safe,
-      text: "safe",
-    },
-    Moderate: {
-      value: 20,
-      color: Colors.light.moderate,
-      text: "moderate",
-    },
-    Unhealty: {
-      value: 30,
-      color: Colors.light.unhealthy,
-      text: "unhealthy",
-    },
-  };
+  let displayText = "Unhealthy";
+  let displayColor = Colors.light.unhealthy;
+
+  if (realTimeData <= ReferenceData.Safety.value) {
+    displayText = ReferenceData.Safety.text;
+    displayColor = ReferenceData.Safety.color;
+  } else if (realTimeData <= ReferenceData.Moderate.value) {
+    displayText = ReferenceData.Moderate.text;
+    displayColor = ReferenceData.Moderate.color;
+  } else if (realTimeData <= ReferenceData.Unhealthy.value) {
+    displayText = ReferenceData.Unhealthy.text;
+    displayColor = ReferenceData.Unhealthy.color;
+  }
+
   return (
     <View
       style={{
         display: "flex",
         flexDirection: "column",
-
+        marginBottom: 20,
         alignItems: "center",
         width: "100%",
       }}>
@@ -52,7 +67,38 @@ export default function SensorData({
         }}>
         <Text style={{ color: Colors.light.text }}>{header}</Text>
       </View>
-      {/* Data */}
+      {/* Reference data */}
+      <View
+        style={{
+          width: "80%",
+          backgroundColor: Colors.light.white,
+          alignItems: "center",
+          padding: 15,
+          borderRadius: 5,
+          flexDirection: "column",
+          elevation: 5,
+        }}>
+        <Text>Reference Data</Text>
+        <View
+          style={{
+            marginTop: 10,
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-around",
+          }}>
+          <Text style={{ color: Colors.light.text }}>
+            Safe : {ReferenceData.Safety.value}
+          </Text>
+          <Text style={{ color: Colors.light.text }}>
+            Moderate : {ReferenceData.Moderate.value}
+          </Text>
+          <Text style={{ color: Colors.light.text }}>
+            Unhealthy : {ReferenceData.Unhealthy.value}
+          </Text>
+        </View>
+      </View>
+
+      {/* comparison data */}
       <View
         style={{
           flexDirection: "row",
@@ -78,24 +124,11 @@ export default function SensorData({
             alignItems: "center",
             width: "50%",
             padding: 15,
-            backgroundColor: Colors.light.darkGreen,
+            backgroundColor: displayColor,
             borderRadius: 5,
           }}>
-          <Text style={{ color: Colors.light.white }}>
-            Safe = {Level.Safety.value}
-          </Text>
+          <Text style={{ color: Colors.light.text }}>{displayText}</Text>
         </View>
-      </View>
-      {/* result */}
-      <View
-        style={{
-          width: "80%",
-          backgroundColor: Colors.light.lightBlue,
-          alignItems: "center",
-          padding: 15,
-          borderRadius: 5,
-        }}>
-        <Text style={{ color: Colors.light.text }}>{header}</Text>
       </View>
     </View>
   );

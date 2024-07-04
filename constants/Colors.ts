@@ -23,6 +23,7 @@ export const Colors = {
     safe: "#00FF00",
     moderate: "#FFFF00",
     unhealthy: "#FF0000",
+    gray: "#9BA1A6",
   },
   dark: {
     text: "#ECEDEE",
