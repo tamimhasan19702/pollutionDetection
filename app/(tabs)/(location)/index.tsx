@@ -3,9 +3,17 @@
 import LiveLocation from "@/components/LiveLocation";
 import { View, Text, ScrollView } from "react-native";
 import { useState } from "react";
+import { useContext } from "react";
+import { LiveDataContext } from "@/context/LiveData.context";
+import { LiveDataType } from "@/context/LiveData.context";
+import LiveList from "@/components/LiveList";
 
 export default function Tab() {
-  const [LiveDataList, setLiveDataList] = useState([]);
+  const { liveData } = useContext(LiveDataContext) as {
+    liveData: LiveDataType[];
+  };
+
+  console.log(liveData);
 
   const data = {
     PM2_5: 10,
@@ -27,7 +35,13 @@ export default function Tab() {
         <Text style={{ fontWeight: "bold", fontSize: 20 }}>
           Previously Saved Value
         </Text>
-        <ScrollView></ScrollView>
+        <ScrollView>
+          {liveData.length > 0 ? (
+            liveData.map((data, i) => <LiveList key={i} livedata={data} />)
+          ) : (
+            <Text>No Data is saved</Text>
+          )}
+        </ScrollView>
       </View>
     </View>
   );

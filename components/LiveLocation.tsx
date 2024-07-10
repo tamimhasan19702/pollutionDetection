@@ -4,6 +4,7 @@ import { Colors } from "@/constants/Colors";
 import React, { useContext } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { LiveDataContext } from "@/context/LiveData.context";
+import { LiveDataType } from "@/context/LiveData.context";
 
 type props = {
   latitude: number;
@@ -18,7 +19,28 @@ type props = {
 
 function LiveLocation({ latitude, longitude, data }: props) {
   const { PM2_5, CO2, NH3, CO } = data;
-  const { liveData } = useContext(LiveDataContext);
+
+  const { liveData, setLiveData } = useContext(LiveDataContext) as {
+    liveData: LiveDataType[];
+    setLiveData: React.Dispatch<React.SetStateAction<LiveDataType[]>>;
+  };
+
+  console.log(liveData);
+
+  const handleSave = () => {
+    setLiveData([
+      {
+        latitude,
+        longitude,
+        pm25: PM2_5,
+        co2: CO2,
+        nh3: NH3,
+        co: CO,
+      },
+      ...liveData,
+    ]);
+  };
+
   return (
     <>
       <View
@@ -114,7 +136,7 @@ function LiveLocation({ latitude, longitude, data }: props) {
             borderRadius: 8,
             elevation: 5,
           }}
-          onPress={() => {}}>
+          onPress={() => handleSave()}>
           <Text style={{ color: Colors.light.black }}>Save the Live data</Text>
         </TouchableOpacity>
       </View>
