@@ -1,9 +1,19 @@
 /** @format */
 
-import { createContext } from "react";
+import { createContext, useState, ReactNode } from "react";
 
 export const LiveDataContext = createContext({});
 
-export const useLiveData = () => {
-  return;
+interface LiveDataProviderProps {
+  children: ReactNode;
+}
+
+export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
+  const [liveData, setLiveData] = useState({});
+
+  return (
+    <LiveDataContext.Provider value={{ liveData, setLiveData }}>
+      {children}
+    </LiveDataContext.Provider>
+  );
 };

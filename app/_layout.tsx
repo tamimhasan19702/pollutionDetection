@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import LottieView from "lottie-react-native";
+import { LiveDataProvider } from "@/context/LiveData.context";
 
 export default function RootLayout() {
   const [showSplash, setShowSplash] = useState(true);
@@ -18,8 +19,10 @@ export default function RootLayout() {
       />
     </View>
   ) : (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <LiveDataProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </LiveDataProvider>
   );
 }
