@@ -27,7 +27,29 @@ function LiveLocation({ latitude, longitude, data }: props) {
 
   console.log(liveData);
 
+  const formatTime = (date: Date) => {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    // @ts-ignore
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = hours + ":" + minutes + " " + ampm;
+
+    // Format date
+    let day = date.getDate();
+    let month = date.getMonth() + 1; // Months are zero-based
+    let year = date.getFullYear();
+
+    let strDate = `${month}/${day}/${year}`;
+
+    return `${strDate} - ${strTime}`;
+  };
+
   const handleSave = () => {
+    const currentTime = new Date();
+    const formattedTime = formatTime(currentTime);
     setLiveData([
       {
         latitude,
@@ -36,6 +58,7 @@ function LiveLocation({ latitude, longitude, data }: props) {
         co2: CO2,
         nh3: NH3,
         co: CO,
+        time: formattedTime,
       },
       ...liveData,
     ]);
