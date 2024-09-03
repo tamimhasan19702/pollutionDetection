@@ -2,17 +2,12 @@
 
 import LiveLocation from "@/components/LiveLocation";
 import { View, Text, ScrollView } from "react-native";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { LiveDataContext } from "@/context/LiveData.context";
-import { LiveDataType } from "@/context/LiveData.context";
 import LiveList from "@/components/LiveList";
 
 export default function Tab() {
-  const { liveData } = useContext(LiveDataContext) as {
-    liveData: LiveDataType[];
-  };
-
-  console.log(liveData);
+  const { liveData, handleDelete } = useContext(LiveDataContext);
 
   const data = {
     PM2_5: 10,
@@ -20,6 +15,7 @@ export default function Tab() {
     NH3: 30,
     CO: 40,
   };
+
   return (
     <View
       // @ts-ignore
@@ -31,7 +27,7 @@ export default function Tab() {
         width: "100%",
       }}>
       <LiveLocation latitude={37.555} longitude={33.222} data={data} />
-      <View style={{ marginTop: 20, width: "80%" }}>
+      <View style={{ marginTop: 10, width: "80%" }}>
         <Text
           style={{
             fontWeight: "bold",
@@ -42,9 +38,15 @@ export default function Tab() {
           Previously Saved Value
         </Text>
 
-        <ScrollView style={{ height: "65%" }}>
+        <ScrollView style={{ height: "60%" }}>
           {liveData.length > 0 ? (
-            liveData.map((data, i) => <LiveList livedata={data} key={i} />)
+            liveData.map((item, index) => (
+              <LiveList
+                key={index}
+                livedata={{ ...item, index }}
+                handleDelete={handleDelete}
+              />
+            ))
           ) : (
             <Text>No Data is saved</Text>
           )}

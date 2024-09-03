@@ -1,11 +1,14 @@
 /** @format */
 
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+// @ts-ignore
+import Icon from "react-native-vector-icons/FontAwesome"; // Import FontAwesome icon set
 import { Colors } from "@/constants/Colors";
 
 type LiveListProps = {
   livedata: {
+    index: number; // Add index to the props
     latitude: number;
     longitude: number;
     pm25: number;
@@ -14,10 +17,12 @@ type LiveListProps = {
     co: number;
     time: string;
   };
+  handleDelete: (index: number) => void; // Ensure handleDelete is in props
 };
 
-const LiveList = ({ livedata }: LiveListProps) => {
-  const { latitude, longitude, pm25, co2, nh3, co, time } = livedata;
+const LiveList = ({ livedata, handleDelete }: LiveListProps) => {
+  const { index, latitude, longitude, pm25, co2, nh3, co, time } = livedata;
+
   return (
     <View
       style={{
@@ -82,6 +87,15 @@ const LiveList = ({ livedata }: LiveListProps) => {
           </Text>
         </View>
       </View>
+      <TouchableOpacity
+        onPress={() => handleDelete(index)} // Call handleDelete with the current index
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+        }}>
+        <Icon name="trash" size={20} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };

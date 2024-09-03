@@ -2,7 +2,11 @@
 
 import { createContext, useState, ReactNode } from "react";
 
-export const LiveDataContext = createContext({});
+export const LiveDataContext = createContext({
+  liveData: [] as LiveDataType[],
+  setLiveData: (data: LiveDataType[]) => {},
+  handleDelete: (index: number) => {},
+});
 
 interface LiveDataProviderProps {
   children: ReactNode;
@@ -43,52 +47,56 @@ export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
     {
       latitude: 24.0,
       longitude: 74.0,
-      pm25: 35,
-      co2: 400,
-      nh3: 0.02,
-      co: 0.8,
-      time: formatTime(new Date()), // Use the formatTime function
+      pm25: 30 + Math.random() * 20,
+      co2: 350 + Math.random() * 100,
+      nh3: 0.01 + Math.random() * 0.05,
+      co: 0.5 + Math.random() * 0.5,
+      time: formatTime(new Date()),
     },
     {
       latitude: 24.5,
       longitude: 74.5,
-      pm25: 40,
-      co2: 410,
-      nh3: 0.03,
-      co: 0.9,
-      time: formatTime(new Date()), // Use the formatTime function
+      pm25: 25 + Math.random() * 30,
+      co2: 300 + Math.random() * 150,
+      nh3: 0.02 + Math.random() * 0.04,
+      co: 0.4 + Math.random() * 0.6,
+      time: formatTime(new Date()),
     },
     {
       latitude: 25.0,
       longitude: 75.0,
-      pm25: 30,
-      co2: 420,
-      nh3: 0.01,
-      co: 0.7,
-      time: formatTime(new Date()), // Use the formatTime function
+      pm25: 20 + Math.random() * 25,
+      co2: 400 + Math.random() * 200,
+      nh3: 0.03 + Math.random() * 0.03,
+      co: 0.6 + Math.random() * 0.4,
+      time: formatTime(new Date()),
     },
     {
       latitude: 25.5,
       longitude: 75.5,
-      pm25: 25,
-      co2: 430,
-      nh3: 0.04,
-      co: 0.6,
-      time: formatTime(new Date()), // Use the formatTime function
+      pm25: 40 + Math.random() * 15,
+      co2: 350 + Math.random() * 150,
+      nh3: 0.01 + Math.random() * 0.05,
+      co: 0.3 + Math.random() * 0.7,
+      time: formatTime(new Date()),
     },
     {
       latitude: 26.0,
       longitude: 76.0,
-      pm25: 45,
-      co2: 440,
-      nh3: 0.05,
-      co: 1.0,
-      time: formatTime(new Date()), // Use the formatTime function
+      pm25: 35 + Math.random() * 10,
+      co2: 320 + Math.random() * 180,
+      nh3: 0.02 + Math.random() * 0.04,
+      co: 0.7 + Math.random() * 0.3,
+      time: formatTime(new Date()),
     },
   ]);
 
+  const handleDelete = (index: number) => {
+    setLiveData((prevData) => prevData.filter((_, i) => i !== index));
+  };
+
   return (
-    <LiveDataContext.Provider value={{ liveData, setLiveData }}>
+    <LiveDataContext.Provider value={{ liveData, setLiveData, handleDelete }}>
       {children}
     </LiveDataContext.Provider>
   );

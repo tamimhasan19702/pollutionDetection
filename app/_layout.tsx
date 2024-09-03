@@ -11,7 +11,7 @@ export default function RootLayout() {
   return showSplash ? (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <LottieView
-        source={require("@/assets/animation/leaves.json")}
+        source={require("@/assets/animation/leaves")}
         autoPlay
         loop={false}
         onAnimationFinish={() => setShowSplash(false)}
