@@ -5,6 +5,8 @@ import { View, Text, ScrollView } from "react-native";
 import { useContext } from "react";
 import { LiveDataContext } from "@/context/LiveData.context";
 import LiveList from "@/components/LiveList";
+import { ref, onValue } from "firebase/database";
+import { Database } from "@/firebase.config";
 
 export default function Tab() {
   const { liveData, handleDelete } = useContext(LiveDataContext);
