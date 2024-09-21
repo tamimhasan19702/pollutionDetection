@@ -1,6 +1,8 @@
 /** @format */
 
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
+import { Database } from "@/firebase.config";
+import { ref, set, remove } from "firebase/database";
 
 export const LiveDataContext = createContext({
   liveData: [] as LiveDataType[],
@@ -16,9 +18,8 @@ export interface LiveDataType {
   latitude: number;
   longitude: number;
   pm25: number;
-  co2: number;
-  nh3: number;
-  co: number;
+  mq7: number;
+  mq135: number;
   time: string;
 }
 
@@ -47,19 +48,27 @@ const formatNumber = (num: number) => parseFloat(num.toFixed(2));
 export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
   const [liveData, setLiveData] = useState<LiveDataType[]>([
     {
-      latitude: 24.0,
-      longitude: 74.0,
-      pm25: formatNumber(30 + Math.random() * 20),
-      co2: formatNumber(350 + Math.random() * 100),
-      nh3: formatNumber(0.01 + Math.random() * 0.05),
-      co: formatNumber(0.5 + Math.random() * 0.5),
+      latitude: 0,
+      longitude: 0,
+      pm25: 0,
+      mq7: 0,
+      mq135: 0,
+
       time: formatTime(new Date()),
     },
   ]);
 
   const handleDelete = (index: number) => {
     setLiveData((prevData) => prevData.filter((_, i) => i !== index));
+
+    const dbRef = ref(Database, `locationData/${index}`);
+    remove(dbRef);
   };
+
+  useEffect(() => {
+    const dbRef = ref(Database, "locationData");
+    set(dbRef, liveData);
+  }, [liveData]);
 
   return (
     <LiveDataContext.Provider value={{ liveData, setLiveData, handleDelete }}>

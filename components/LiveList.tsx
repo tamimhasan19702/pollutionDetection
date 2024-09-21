@@ -12,16 +12,15 @@ type LiveListProps = {
     latitude: number;
     longitude: number;
     pm25: number;
-    co2: number;
-    nh3: number;
-    co: number;
+    mq7: number;
+    mq135: number;
     time: string;
   };
   handleDelete: (index: number) => void; // Ensure handleDelete is in props
 };
 
 const LiveList = ({ livedata, handleDelete }: LiveListProps) => {
-  const { index, latitude, longitude, pm25, co2, nh3, co, time } = livedata;
+  const { index, latitude, longitude, pm25, mq7, mq135, time } = livedata;
 
   return (
     <View
@@ -65,10 +64,10 @@ const LiveList = ({ livedata, handleDelete }: LiveListProps) => {
             justifyContent: "center",
           }}>
           <Text style={{ fontWeight: "bold", color: "white", fontSize: 16 }}>
-            PM2.5 ug/m3: {pm25}
+            PM25: {pm25}
           </Text>
           <Text style={{ fontWeight: "bold", color: "white", fontSize: 16 }}>
-            CO2 : {co2}
+            MQ7 : {mq7}
           </Text>
         </View>
         <View
@@ -80,10 +79,7 @@ const LiveList = ({ livedata, handleDelete }: LiveListProps) => {
             justifyContent: "center",
           }}>
           <Text style={{ fontWeight: "bold", color: "white", fontSize: 16 }}>
-            NH3 : {nh3}
-          </Text>
-          <Text style={{ fontWeight: "bold", color: "white", fontSize: 16 }}>
-            CO : {co}
+            MQ135 : {mq135}
           </Text>
         </View>
       </View>
