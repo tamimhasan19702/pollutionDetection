@@ -46,17 +46,7 @@ const formatTime = (date: Date) => {
 const formatNumber = (num: number) => parseFloat(num.toFixed(2));
 
 export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
-  const [liveData, setLiveData] = useState<LiveDataType[]>([
-    {
-      latitude: 0,
-      longitude: 0,
-      pm25: 0,
-      mq7: 0,
-      mq135: 0,
-
-      time: formatTime(new Date()),
-    },
-  ]);
+  const [liveData, setLiveData] = useState<LiveDataType[]>([]);
 
   const handleDelete = (index: number) => {
     setLiveData((prevData) => prevData.filter((_, i) => i !== index));
