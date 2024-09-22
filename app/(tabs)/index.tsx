@@ -9,20 +9,56 @@ import { Database } from "@/firebase.config";
 
 export default function Tab() {
   const Level = {
-    Safety: {
-      value: 100,
-      color: Colors.light.safe,
-      text: "safe",
+    MQ135: {
+      Safety: {
+        value: 600,
+        color: Colors.light.safe,
+        text: "good",
+      },
+      Moderate: {
+        value: 1500,
+        color: Colors.light.moderate,
+        text: "mediocre",
+      },
+      Unhealthy: {
+        value: 2100,
+        color: Colors.light.unhealthy,
+        text: "bad",
+      },
     },
-    Moderate: {
-      value: 1000,
-      color: Colors.light.moderate,
-      text: "moderate",
+    MQ7: {
+      Safety: {
+        value: 150,
+        color: Colors.light.safe,
+        text: "good",
+      },
+      Moderate: {
+        value: 450,
+        color: Colors.light.moderate,
+        text: "moderate",
+      },
+      Unhealthy: {
+        value: Infinity, // or a very high value
+        color: Colors.light.unhealthy,
+        text: "bad",
+      },
     },
-    Unhealthy: {
-      value: 3000,
-      color: Colors.light.unhealthy,
-      text: "unhealthy",
+    PM25: {
+      Safety: {
+        value: 50,
+        color: Colors.light.safe,
+        text: "good",
+      },
+      Moderate: {
+        value: 100,
+        color: Colors.light.moderate,
+        text: "moderate",
+      },
+      Unhealthy: {
+        value: 200,
+        color: Colors.light.unhealthy,
+        text: "unhealthy",
+      },
     },
   };
 
@@ -61,17 +97,19 @@ export default function Tab() {
         <SensorData
           header="MQ135"
           realTimeData={realtimeData?.MQ135}
-          ReferenceData={Level}
+          ReferenceData={Level.MQ135}
         />
+
         <SensorData
           header="MQ7"
           realTimeData={realtimeData?.MQ7}
-          ReferenceData={Level}
+          ReferenceData={Level.MQ7}
         />
+
         <SensorData
           header="PM25"
           realTimeData={realtimeData?.PM25}
-          ReferenceData={Level}
+          ReferenceData={Level.PM25}
         />
       </ScrollView>
     </View>

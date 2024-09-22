@@ -33,8 +33,8 @@ export default function SensorData({
   realTimeData,
   ReferenceData,
 }: Props) {
-  let displayText = "Unhealthy";
-  let displayColor = Colors.light.unhealthy;
+  let displayText: string = "Unhealthy";
+  let displayColor: string = Colors.light.unhealthy;
 
   if (realTimeData <= ReferenceData.Safety.value) {
     displayText = ReferenceData.Safety.text;
@@ -42,7 +42,7 @@ export default function SensorData({
   } else if (realTimeData <= ReferenceData.Moderate.value) {
     displayText = ReferenceData.Moderate.text;
     displayColor = ReferenceData.Moderate.color;
-  } else if (realTimeData <= ReferenceData.Unhealthy.value) {
+  } else {
     displayText = ReferenceData.Unhealthy.text;
     displayColor = ReferenceData.Unhealthy.color;
   }
