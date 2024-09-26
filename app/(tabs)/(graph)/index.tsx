@@ -1,10 +1,9 @@
 /** @format */
+
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import { BarChart } from "react-native-chart-kit";
 import { LiveDataContext } from "@/context/LiveData.context";
-import { ref, onValue, remove } from "firebase/database";
-import { Database } from "@/firebase.config";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -24,58 +23,36 @@ const chartConfig = {
 
 export default function Tab() {
   const { liveData } = useContext(LiveDataContext);
-  const [realtimeData, setRealtimeData] = useState(null);
-  const [cachedData, setCachedData] = useState(null);
 
-  useEffect(() => {
-    const dbRef = ref(Database, "liveData");
-    onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        // Add a check for valid data
-        setRealtimeData(data);
-        setCachedData(data);
-      } else {
-        setRealtimeData(null); // Handle case when data is null
-      }
-    });
-  }, []);
-
-  const data = {
-    labels: [
-      "2022-01-01",
-      "2022-01-02",
-      "2022-01-03",
-      "2022-01-04",
-      "2022-01-05",
-    ],
-    datasets: [
-      {
-        data: [10, 20, 30, 40, 50],
-      },
-    ],
-  };
+  console.log(liveData);
 
   return (
     <View style={{ flex: 1, padding: 16, backgroundColor: "#ffffff" }}>
       <Text style={{ color: "#000000", fontSize: 20, marginBottom: 16 }}>
-        CO Value Over Time
+        Air Quality Data
       </Text>
 
-      <LineChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
-        bezier
-      />
-
       <ScrollView style={{ flex: 1, padding: 16 }}>
-        {data.labels.map((label, index) => (
+        {liveData.map((data, index) => (
           <View key={index} style={{ marginBottom: 16 }}>
             <Text style={{ fontSize: 16, color: "#000000" }}>
-              {label} - CO: {data.datasets[0].data[index]}
+              Time: {data.time}
             </Text>
+
+            <BarChart
+              data={{
+                labels: ["MQ135", "MQ7", "PM25"],
+                datasets: [
+                  {
+                    data: [data.mq135, data.mq7, data.pm25],
+                  },
+                ],
+              }}
+              width={screenWidth}
+              height={220}
+              chartConfig={chartConfig}
+              showValuesOnTopOfBars={true}
+            />
           </View>
         ))}
       </ScrollView>
