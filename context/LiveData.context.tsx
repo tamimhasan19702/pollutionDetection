@@ -1,4 +1,5 @@
 /** @format */
+
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { Database } from "@/firebase.config";
 import { ref, set, remove, onValue } from "firebase/database";
@@ -28,13 +29,17 @@ const formatTime = (date: Date) => {
   let ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
+  // @ts-ignore
   minutes = minutes < 10 ? "0" + minutes : minutes;
   let strTime = hours + ":" + minutes + " " + ampm;
+
   // Format date
   let day = date.getDate();
   let month = date.getMonth() + 1; // Months are zero-based
   let year = date.getFullYear();
+
   let strDate = `${month}/${day}/${year}`;
+
   return `${strDate} - ${strTime}`;
 };
 
@@ -45,6 +50,7 @@ export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
 
   const handleDelete = (index: number) => {
     setLiveData((prevData) => prevData.filter((_, i) => i !== index));
+
     const dbRef = ref(Database, `locationData/${index}`);
     remove(dbRef);
   };
@@ -60,11 +66,6 @@ export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
       }
     });
   }, []);
-
-  // useEffect(() => {
-  //   const dbRef = ref(Database, "locationData");
-  //   set(dbRef, liveData);
-  // }, [liveData]);
 
   return (
     <LiveDataContext.Provider value={{ liveData, setLiveData, handleDelete }}>

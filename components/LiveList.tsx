@@ -45,7 +45,7 @@ const LiveList = ({ livedata, handleDelete }: LiveListProps) => {
           Latitude: {latitude}, Longitude: {longitude}
         </Text>
         <Text style={{ color: "white", fontSize: 16 }}>
-          Time: {time.toString()}
+          Date & Time: {time.toString()}
         </Text>
       </View>
       <View
