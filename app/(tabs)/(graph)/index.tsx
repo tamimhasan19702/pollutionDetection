@@ -1,8 +1,10 @@
 /** @format */
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { LiveDataContext } from "@/context/LiveData.context";
+import { ref, onValue, remove } from "firebase/database";
+import { Database } from "@/firebase.config";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -22,10 +24,22 @@ const chartConfig = {
 
 export default function Tab() {
   const { liveData } = useContext(LiveDataContext);
-  const [selectedData, setSelectedData] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [realtimeData, setRealtimeData] = useState(null);
+  const [cachedData, setCachedData] = useState(null);
 
-  console.log(liveData);
+  useEffect(() => {
+    const dbRef = ref(Database, "liveData");
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // Add a check for valid data
+        setRealtimeData(data);
+        setCachedData(data);
+      } else {
+        setRealtimeData(null); // Handle case when data is null
+      }
+    });
+  }, []);
 
   const data = {
     labels: [

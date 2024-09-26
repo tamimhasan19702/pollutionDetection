@@ -55,11 +55,6 @@ export const LiveDataProvider = ({ children }: LiveDataProviderProps) => {
     remove(dbRef);
   };
 
-  useEffect(() => {
-    const dbRef = ref(Database, "locationData");
-    set(dbRef, liveData);
-  }, [liveData]);
-
   return (
     <LiveDataContext.Provider value={{ liveData, setLiveData, handleDelete }}>
       {children}
