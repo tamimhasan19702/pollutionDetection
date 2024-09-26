@@ -82,7 +82,8 @@ export default function SensorData({
         <View
           style={{
             marginTop: 10,
-            flexDirection: "row",
+            flexDirection: "Column",
+            alignItems: "center",
             width: "100%",
             justifyContent: "space-around",
           }}>

@@ -48,7 +48,7 @@ export default function Tab() {
                   },
                 ],
               }}
-              width={screenWidth}
+              width={screenWidth - 20}
               height={220}
               chartConfig={chartConfig}
               showValuesOnTopOfBars={true}
